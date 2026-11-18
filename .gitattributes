@@ -1,0 +1,5 @@
+# Use consistent Linux line endings for text files.
+* text=auto eol=lf
+
+# Preserve third-party library files as distributed.
+static/vendor/** -text

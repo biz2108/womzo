@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Edit webcam · SJB's World Webcams{% endblock %}
+{% block content %}
+<div class="form-page">
+  <p><a href="{{ url_for('admin') }}">← Back to cameras</a></p>
+  <h1>Edit webcam</h1>
+  <form class="panel stack" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="title">Camera title</label><input name="title" id="title" value="{{ camera.title }}" maxlength="100" required>
+    <label for="location">Location or category</label><input name="location" id="location" value="{{ camera.location }}" maxlength="80" required>
+    <label for="url">Camera URL</label><input type="url" name="url" id="url" value="{{ camera.url }}" maxlength="2048" required>
+    <button class="primary" type="submit">Save changes</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}Admin sign-in · SJB's World Webcams{% endblock %}
+{% block content %}
+{% set wait = retry_after|default(0) %}
+<div class="form-page">
+  <h1>Administrator sign-in</h1>
+  <p>Only the administrator can add, edit or remove cameras. Viewers do not need this password.</p>
+
+  {% if wait %}
+  <div id="login-countdown" class="notice error"
+       data-seconds="{{ wait }}">
+    Too many login attempts. Please try again in {{ wait }} seconds.
+  </div>
+  <noscript>
+    <p class="helper">
+      After the waiting period, <a href="{{ url_for('admin_login') }}">return to sign-in</a>.
+    </p>
+  </noscript>
+  {% endif %}
+
+  <form class="panel stack" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="password">Admin password</label>
+    <input id="password" type="password" name="password"
+           autocomplete="current-password" required
+           {% if wait %}disabled{% else %}autofocus{% endif %}>
+    <button id="login-button" class="primary" type="submit"
+            {% if wait %}disabled{% endif %}>
+      {% if wait %}Sign in ({{ wait }}s){% else %}Sign in{% endif %}
+    </button>
+  </form>
+</div>
+
+{% if wait %}
+<script src="{{ url_for('static', filename='login.js', v='1') }}" defer></script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Manage webcams · SJB's World Webcams{% endblock %}
+{% block content %}
+<div class="admin-heading">
+  <div><h1>Manage webcams</h1><p>Add streams and links to the viewer directory.</p></div>
+  <form method="post" action="{{ url_for('logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="secondary" type="submit">Sign out</button>
+  </form>
+</div>
+<div class="admin-columns">
+  <section class="panel">
+    <h2>Add a camera</h2>
+    <form class="stack" action="{{ url_for('add_camera') }}" method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="title">Camera title</label>
+      <input type="text" name="title" id="title" maxlength="100" placeholder="Plymouth Hoe" required>
+      <label for="location">Location or category</label>
+      <input type="text" name="location" id="location" maxlength="80" placeholder="Plymouth, England" required>
+      <label for="url">Camera URL</label>
+      <input type="url" name="url" id="url" maxlength="2048" placeholder="https://www.youtube.com/live/…" required>
+      <p class="helper">YouTube live, IPCamLive and MyEarthCam embed-player URLs can be embedded here. HLS (.m3u8) works when the provider permits browser access. Ordinary webcam pages open at their original site.</p>
+      <button class="primary" type="submit">Add camera</button>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Saved cameras <span class="count">{{ cameras|length }}</span></h2>
+    <p class="helper">Use Up and Down to arrange cameras. Visitors see the same order.</p>
+    {% if cameras %}
+      <div class="saved-list">
+      {% for camera in cameras %}
+      <div class="saved-camera" id="camera-{{ camera.id }}">
+        <div class="saved-info"><strong>{{ camera.title }}</strong><small>{{ camera.location }} · {{ camera.kind }}</small><small class="truncate">{{ camera.url }}</small></div>
+        <div class="saved-actions">
+          <form method="post" action="{{ url_for('move_camera', camera_id=camera.id, direction='up') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="secondary action" type="submit" {% if loop.first %}disabled{% endif %} aria-label="Move {{ camera.title }} up">↑ Up</button>
+          </form>
+          <form method="post" action="{{ url_for('move_camera', camera_id=camera.id, direction='down') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="secondary action" type="submit" {% if loop.last %}disabled{% endif %} aria-label="Move {{ camera.title }} down">↓ Down</button>
+          </form>
+          <a class="secondary action" href="{{ url_for('edit_camera', camera_id=camera.id) }}">Edit</a>
+          <form class="delete-camera-form" method="post" action="{{ url_for('delete_camera', camera_id=camera.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="danger action" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+    {% else %}<p class="empty">No webcams yet. Add one using the form.</p>{% endif %}
+  </section>
+</div>
+<script src="{{ url_for('static', filename='admin.js', v='1') }}" defer></script>
+{% endblock %}

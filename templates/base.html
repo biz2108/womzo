@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% block title %}Public Webcam Directory{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='login1') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}">◉ <span>SJB's World Webcams</span></a>
+    <nav>
+      <a href="{{ url_for('index') }}">View cameras</a>
+      <a href="{{ url_for('admin') }}">Manage</a>
+      <a href="{{ '#about' if request.endpoint == 'index' else url_for('index', _anchor='about') }}">About</a>
+      <a class="kofi-button"
+         href="https://ko-fi.com/sjbprojects"
+         target="_blank"
+         rel="noopener noreferrer">
+        <span aria-hidden="true">☕</span>
+        Buy me a coffee
+      </a>
+    </nav>
+  </header>
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}<div class="messages">
+        {% for category, message in messages %}<p class="notice {{ category }}">{{ message }}</p>{% endfor %}
+      </div>{% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+  Public webcam links · Video is played directly from each provider · Not affiliated with camera operators
+  <span class="footer-credit">
+  An SJB Projects application · v{{ app_version }}
+  </span>
+  </footer>
+</body>
+</html>

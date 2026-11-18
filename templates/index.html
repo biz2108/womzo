@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}SJB's World Webcams{% endblock %}
+{% block head %}
+<script defer src="{{ url_for('static', filename='vendor/hls.js/hls.min.js', v='1.7.4') }}"></script>
+{% endblock %}
+{% block content %}
+<section class="intro">
+  <div>
+    <h1>Explore live webcams</h1>
+    <p>Choose a location to watch. Only the camera you select will load.</p>
+  </div>
+</section>
+<div class="viewer-layout">
+  <aside class="directory">
+    <label class="search-label" for="search">Find a webcam</label>
+    <input id="search" type="search" placeholder="Search cameras or locations…" autocomplete="off">
+    <div class="camera-list" id="camera-list">
+      {% if not cameras %}<p class="empty">No webcams added yet. The administrator can add the first one under <a href="{{ url_for('admin') }}">Manage</a>.</p>{% endif %}
+      {% for camera in cameras %}
+      <button class="camera-item" type="button" data-id="{{ camera.id }}" data-search="{{ (camera.title ~ ' ' ~ camera.location)|lower }}">
+        <span class="camera-title">{{ camera.title }}</span>
+        <span class="camera-location">{{ camera.location }} · {{ {'youtube':'YouTube Live', 'hls':'Live stream', 'image':'Camera image', 'ipcamlive':'IPCamLive', 'myearthcam':'MyEarthCam', 'link':'Website'}[camera.kind] }}</span>
+      </button>
+      {% endfor %}
+    </div>
+    <p id="no-match" class="empty" hidden>No matching webcams.</p>
+  </aside>
+  <section class="player-section">
+    <div class="player-header">
+      <div>
+        <h2 id="now-title">Select a webcam</h2>
+        <p id="now-location">Pick a camera from the list on the left.</p>
+      </div>
+      <a id="source-link" class="text-button" target="_blank" rel="noopener noreferrer" hidden>Original source ↗</a>
+    </div>
+    <div class="video-shell" id="video-shell" aria-live="polite">
+      <div class="player-placeholder"><span class="placeholder-icon">▶</span><span>Nothing playing yet</span></div>
+    </div>
+    <p class="player-note" id="player-note">Some public webcams restrict embedding or require you to visit the provider's website.</p>
+  </section>
+</div>
+{% include 'about.html' %}
+<script id="camera-data" type="application/json">{{ cameras|tojson }}</script>
+<script src="{{ url_for('static', filename='viewer.js', v='earthcam1') }}" defer></script>
+{% endblock %}
