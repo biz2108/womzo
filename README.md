@@ -173,4 +173,29 @@ Additional platform support, documentation and distribution options are planned.
 
 ## Licence
 
-The application's open-source licence will be selected before its first public release.
+Copyright (C) 2026 SJB.
+
+SJB's World Webcams is licensed under the GNU Affero
+General Public License version 3.0 (AGPL-3.0-only).
+
+See [LICENSE](LICENSE) for the full licence terms.
+
+Third-party components retain their respective licences.
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+for further information.
+
+## Branding
+
+SJB's World Webcams is published under the SJB Projects
+identity.
+
+See our [Branding Policy](BRANDING.md) for guidance on
+the use of project names, logos and branding.
+
+## Contributing
+
+Community contributions, bug reports and suggestions
+are welcome.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidance
+on contributing to the project.

@@ -1,3 +1,7 @@
+# Copyright (C) 2026 SJB
+# SPDX-License-Identifier: AGPL-3.0-only
+# See LICENSE for the full licence terms.
+
 """A small, read-only public webcam directory with a password-protected admin page.
 
 Video is fetched by viewers' browsers directly from upstream providers. This server
