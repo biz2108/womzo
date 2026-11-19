@@ -44,6 +44,27 @@ Video streams are fetched directly by the visitor's browser from the original pr
 
 Only the selected camera is loaded.
 
+## Webcam permissions and privacy
+
+This application is distributed without a preconfigured
+webcam collection.
+
+Administrators are responsible for ensuring that they
+have permission to display the cameras they add.
+
+Respect the original providers' terms of use, copyright
+and embedding restrictions. Public availability does not
+necessarily imply permission to embed a stream.
+
+Do not attempt to circumvent access or embedding restrictions.
+
+All saved camera URLs are visible to visitors.
+Never add confidential URLs, access tokens, credentials
+or private security cameras to a public installation.
+
+Visitors connect directly to third-party providers,
+whose respective privacy policies may apply.
+
 ## Installation
 
 Docker Engine and Docker Compose are required.
