@@ -222,6 +222,15 @@ Third-party components retain their respective licences.
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 for further information.
 
+## Source-code availability
+
+The About section links to the corresponding tagged
+release of the original application on GitHub.
+
+Operators of modified versions must update this link
+to provide the corresponding source code of their
+modified application in accordance with the AGPL.
+
 ## Branding
 
 SJB's World Webcams is published under the SJB Projects
