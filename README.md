@@ -85,8 +85,25 @@ values.
 
 Never publish or share your `.env` file.
 
-Ensure the data directory is writable by the user
-configured through PUID and PGID.
+Determine your Linux user and group IDs:
+
+    id -u
+    id -g
+
+Set PUID and PGID in .env to the respective values
+returned by these commands.
+
+The data directory must be writable by that user.
+For a new installation, creating the directory as
+your normal Linux user should be sufficient.
+
+If its ownership needs correcting, run the following
+as the user whose IDs you configured:
+
+    sudo chown -R "$(id -u):$(id -g)" data
+    chmod 700 data
+
+Use a non-root user for the container.
 
 ### Configuration
 

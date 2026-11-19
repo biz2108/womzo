@@ -28,13 +28,20 @@ if not ADMIN_PASSWORD or ADMIN_PASSWORD.startswith("replace_") or len(ADMIN_PASS
 if not SECRET_KEY or SECRET_KEY.startswith("replace_") or len(SECRET_KEY) < 32:
     raise RuntimeError("Set a SECRET_KEY of at least 32 characters in .env")
 
+cookie_secure = os.environ.get(
+    "SESSION_COOKIE_SECURE", "true"
+).strip().lower()
+
+if cookie_secure not in ("true", "false"):
+    raise RuntimeError(
+        "SESSION_COOKIE_SECURE must be true or false"
+    )
+
 app = Flask(__name__)
 app.config.update(
     SECRET_KEY=SECRET_KEY,
     SESSION_COOKIE_NAME="worldcams_session",
-    SESSION_COOKIE_SECURE=os.environ.get(
-        "SESSION_COOKIE_SECURE", "true"
-    ).lower() == "true",
+    SESSION_COOKIE_SECURE=(cookie_secure == "true"),
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     PERMANENT_SESSION_LIFETIME=8 * 60 * 60,
@@ -231,7 +238,7 @@ def security_headers(response):
     if request.path.startswith("/admin"):
         response.headers["Cache-Control"] = "no-store"
 
-    # Test the Content Security Policy without blocking resources.
+    # Enforce the Content Security Policy.
     csp = [
         "default-src 'self'",
         "script-src 'self'",
