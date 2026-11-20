@@ -13,6 +13,21 @@ will be documented in this file.
 - Webcam permissions and visitor privacy guidance.
 - Version-specific GitHub source-code link.
 - Improved installation and directory ownership instructions.
+- Reusable automated test suite with 19 application and security tests.
+- GitHub Actions continuous integration.
+- Docker image distribution through GitHub Container Registry.
+- Multi-architecture Docker images for AMD64 and ARM64.
+- Native runtime testing on both supported architectures.
+- Standard OCI Docker image metadata.
+- Ready-to-use Docker Compose deployment configuration.
+- Dedicated installation, configuration, maintenance and troubleshooting guides.
+- Expanded README with quick-start instructions.
+
+### Changed
+
+- Clarified that users create their own webcam collections.
+- Recommended installation from ready-built Docker images.
+- Restricted the Docker build context to required application files.
 
 ### Security
 
