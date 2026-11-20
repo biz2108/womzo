@@ -2,6 +2,11 @@ name: Test Published Docker Image
 
 on:
   workflow_dispatch:
+    inputs:
+      digest:
+        description: 'Docker image digest (sha256:...)'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -24,9 +29,17 @@ jobs:
             runner: ubuntu-24.04-arm
 
     env:
-      WORLDCAMS_TEST_IMAGE: ghcr.io/biz2108/sjb-world-webcams@sha256:aa186434928927a29c78921713b0793195891ee4e6cddccd790fce30485cbe6d
+      IMAGE_DIGEST: ${{ inputs.digest }}
 
     steps:
+      - name: Validate image digest
+        run: |
+          if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]; then
+            echo "Invalid SHA256 image digest"
+            exit 1
+          fi
+          echo "WORLDCAMS_TEST_IMAGE=ghcr.io/biz2108/sjb-world-webcams@$IMAGE_DIGEST" >> "$GITHUB_ENV"
+
       - name: Download test suite
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
