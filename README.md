@@ -222,6 +222,38 @@ Third-party components retain their respective licences.
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 for further information.
 
+## Automated testing
+
+The application includes an automated test suite
+covering application functionality, authentication,
+CSRF protection and security configuration.
+
+Requirements:
+
+- Linux with Bash and Python 3.
+- Docker with a recent Docker Compose v2 plugin.
+- Permission to run Docker commands.
+- Local TCP port 18099 available.
+
+From the repository directory, run:
+
+    bash tests/run_tests.sh
+
+The test runner creates an isolated Docker installation
+with randomly generated credentials and an empty database.
+It does not require access to an existing installation
+or its credentials.
+
+The temporary test environment is automatically removed
+when testing finishes. Docker's reusable build cache
+is retained.
+
+The current suite contains 14 functional tests and
+five secure-cookie configuration tests.
+
+Browser-based video playback and production HTTPS
+behaviour require separate testing.
+
 ## Source-code availability
 
 The About section links to the corresponding tagged
