@@ -94,13 +94,28 @@ content = content.replace(
 content = content.replace(":8099:8000", ":18099:8000")
 content = content.replace("restart: unless-stopped", 'restart: "no"')
 
+image = os.environ.get("WORLDCAMS_TEST_IMAGE", "")
+if image:
+    import json
+    assert "    build: .\n" in content
+    content = content.replace(
+        "    build: .\n",
+        "    image: " + json.dumps(image) + "\n"
+        "    pull_policy: never\n"
+    )
 path.write_text(content)
 PY
 
 echo
 echo "Building and starting test container..."
 
-compose up -d --build --wait --wait-timeout 120
+if [[ -n "${WORLDCAMS_TEST_IMAGE:-}" ]]; then
+    echo "Testing existing image: $WORLDCAMS_TEST_IMAGE"
+    docker image inspect "$WORLDCAMS_TEST_IMAGE" >/dev/null
+    compose up -d --wait --wait-timeout 120
+else
+    compose up -d --build --wait --wait-timeout 120
+fi
 
 echo
 echo "Running functional tests..."

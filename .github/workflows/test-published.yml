@@ -1,0 +1,57 @@
+name: Test Published Docker Image
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  test:
+    name: Test ${{ matrix.arch }}
+    if: github.repository == 'biz2108/sjb-world-webcams' && github.ref == 'refs/heads/main'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+
+    env:
+      WORLDCAMS_TEST_IMAGE: ghcr.io/biz2108/sjb-world-webcams@sha256:aa186434928927a29c78921713b0793195891ee4e6cddccd790fce30485cbe6d
+
+    steps:
+      - name: Download test suite
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Download published image
+        run: docker pull "$WORLDCAMS_TEST_IMAGE"
+
+      - name: Verify architecture
+        run: |
+          uname -m
+          ARCH="$(docker image inspect "$WORLDCAMS_TEST_IMAGE" --format '{{.Architecture}}')"
+          echo "Image architecture: $ARCH"
+          test "$ARCH" = "${{ matrix.arch }}"
+
+      - name: Test published application
+        run: bash tests/run_tests.sh
+
+      - name: Log out of registry
+        if: always()
+        run: docker logout ghcr.io
