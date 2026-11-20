@@ -1,21 +1,30 @@
+# Exclude everything by default
+**
 
-.env
-.env.*
-!.env.example
+# Files required to build the application
+!Dockerfile
+!.dockerignore
+!app.py
+!VERSION
+!requirements.txt
+!LICENSE
+!THIRD_PARTY_NOTICES.md
 
-.git
-.gitignore
+# Application templates and static assets
+!templates/
+!templates/**
+!static/
+!static/**
 
-data/
-backup-*/
-
+# Additional protection within permitted directories
+**/.env
+**/.env.*
 **/__pycache__/
 **/*.pyc
 **/*.bak
 **/*.bak.*
 **/*.before-*
-
-*.sqlite3
-*.sqlite3-*
-*.db
-*.db-*
+**/*.sqlite3
+**/*.sqlite3-*
+**/*.db
+**/*.db-*
