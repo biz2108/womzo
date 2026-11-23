@@ -2,7 +2,7 @@
 
 ## Purpose
 
-SJB's World Webcams is an independent open-source
+Womzo is an independent open-source
 application created by SJB and published under the
 SJB Projects identity.
 
@@ -17,7 +17,7 @@ from independently maintained versions.
 
 The project identity includes:
 
-- SJB's World Webcams
+- Womzo
 - SJB Projects
 - Associated official logos and branding
 
@@ -43,7 +43,7 @@ name and visual identity for independently
 distributed modified versions.
 
 Modified versions must not be misrepresented as
-official releases of SJB's World Webcams.
+official releases of Womzo.
 
 Use of the project identity must not falsely imply
 approval, sponsorship or endorsement by SJB Projects.

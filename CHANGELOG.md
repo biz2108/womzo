@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to SJB's World Webcams
+All notable changes to Womzo
 will be documented in this file.
 
 ## [0.1.1] - Unreleased

@@ -1,6 +1,6 @@
 # Installation guide
 
-SJB's World Webcams is distributed as a ready-built Docker
+Womzo is distributed as a ready-built Docker
 image through GitHub Container Registry.
 
 You do not need to install Python, Flask, JavaScript

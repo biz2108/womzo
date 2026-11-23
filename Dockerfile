@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-LABEL org.opencontainers.image.title="SJB's World Webcams" \
+LABEL org.opencontainers.image.title="Womzo" \
       org.opencontainers.image.description="A lightweight, self-hosted webcam viewer" \
       org.opencontainers.image.vendor="SJB Projects" \
       org.opencontainers.image.source="https://github.com/biz2108/sjb-world-webcams" \

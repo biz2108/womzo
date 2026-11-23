@@ -1,7 +1,7 @@
 # Troubleshooting guide
 
 This guide addresses common problems that may arise
-when installing or using SJB's World Webcams.
+when installing or using Womzo.
 
 Run Docker commands from your installation directory.
 
@@ -99,7 +99,7 @@ Allow the restriction to expire before trying again.
 
 This is expected.
 
-SJB's World Webcams is distributed without a
+Womzo is distributed without a
 preconfigured webcam collection.
 
 Select Manage, sign in and add your first camera.

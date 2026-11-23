@@ -1,4 +1,4 @@
-# Contributing to SJB's World Webcams
+# Contributing to Womzo
 
 Thank you for your interest in contributing to
 this SJB Projects application.
@@ -82,4 +82,4 @@ retain its required copyright and licence notices.
 Please respect the project's branding policy described
 in BRANDING.md.
 
-Thank you for helping improve SJB's World Webcams.
+Thank you for helping improve Womzo.

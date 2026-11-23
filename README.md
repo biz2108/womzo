@@ -1,9 +1,9 @@
-# SJB's World Webcams
+# Womzo
 
 A free, lightweight, self-hosted webcam viewer built with
 Flask, JavaScript and Docker.
 
-SJB's World Webcams allows you to create and manage your own
+Womzo allows you to create and manage your own
 personal collection of webcams from around the world in one
 convenient interface.
 
@@ -384,7 +384,7 @@ Created by SJB with development assistance from ChatGPT.
 
 ## Support
 
-SJB's World Webcams is free to use.
+Womzo is free to use.
 
 If you enjoy the project and would like to support its
 continued development, you can buy me a coffee:
@@ -393,7 +393,7 @@ https://ko-fi.com/sjbprojects
 
 ## Development
 
-SJB's World Webcams is an SJB Projects application.
+Womzo is an SJB Projects application.
 
 Additional platform support and improvements are planned.
 
@@ -403,7 +403,7 @@ See the [Changelog](CHANGELOG.md) for version history.
 
 Copyright (C) 2026 SJB.
 
-SJB's World Webcams is licensed under the GNU Affero General
+Womzo is licensed under the GNU Affero General
 Public License version 3.0 (AGPL-3.0-only).
 
 See [LICENSE](LICENSE) for the full licence terms.
@@ -423,7 +423,7 @@ application in accordance with the AGPL.
 
 ## Branding
 
-SJB's World Webcams is published under the SJB Projects identity.
+Womzo is published under the SJB Projects identity.
 
 See our [Branding Policy](BRANDING.md) for guidance on the
 use of project names, logos and branding.
