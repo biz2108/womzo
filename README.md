@@ -310,8 +310,8 @@ who prefer to build their own Docker images.
 
 Clone the repository:
 
-    git clone https://github.com/biz2108/sjb-world-webcams.git
-    cd sjb-world-webcams
+    git clone https://github.com/biz2108/womzo.git
+    cd womzo
 
 For a particular release, check out its corresponding Git tag.
 

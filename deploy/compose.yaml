@@ -1,6 +1,6 @@
 services:
   webcam-directory:
-    image: ghcr.io/biz2108/sjb-world-webcams:0.1.1
+    image: ghcr.io/biz2108/womzo:0.1.1
     restart: unless-stopped
     user: "${PUID:-1000}:${PGID:-1000}"
     read_only: true

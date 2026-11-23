@@ -147,7 +147,7 @@ Check the image name and version in compose.yaml.
 
 The official image repository is:
 
-    ghcr.io/biz2108/sjb-world-webcams
+    ghcr.io/biz2108/womzo
 
 Supported processor architectures are Linux/AMD64
 and Linux/ARM64.
@@ -178,7 +178,7 @@ for backup and restoration instructions.
 If you cannot resolve a problem, visit the project's
 GitHub repository:
 
-https://github.com/biz2108/sjb-world-webcams
+https://github.com/biz2108/womzo
 
 Useful information for a bug report includes:
 
