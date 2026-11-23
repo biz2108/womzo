@@ -1,6 +1,6 @@
 # Third-party software notices
 
-SJB's World Webcams includes third-party open-source
+Womzo includes third-party open-source
 software. Such software retains its respective licences
 and copyright notices.
 

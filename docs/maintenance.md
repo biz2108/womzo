@@ -1,6 +1,6 @@
 # Maintenance guide
 
-SJB's World Webcams is designed to require very little
+Womzo is designed to require very little
 routine maintenance.
 
 All commands in this guide should be run from your

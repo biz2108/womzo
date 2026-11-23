@@ -68,7 +68,7 @@ check(status == 200 and cameras() == [],
 check(f"v{version}" in html, "Correct application version")
 
 check(
-    f"https://github.com/biz2108/sjb-world-webcams/tree/v{version}" in html,
+    f"https://github.com/biz2108/womzo/tree/v{version}" in html,
     "Version-specific GitHub source link"
 )
 

@@ -9,7 +9,7 @@ permissions:
 jobs:
   test:
     name: Pre-publication tests
-    if: github.repository == 'biz2108/sjb-world-webcams' && github.ref == 'refs/heads/main'
+    if: github.repository == 'biz2108/womzo' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -56,7 +56,7 @@ jobs:
       - name: Build and publish development image
         run: |
           VERSION="$(cat VERSION)"
-          IMAGE="ghcr.io/biz2108/sjb-world-webcams"
+          IMAGE="ghcr.io/biz2108/womzo"
           TAG="dev-${GITHUB_SHA}"
 
           docker buildx build \

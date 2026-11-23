@@ -10,13 +10,17 @@ See LICENSE for the full licence terms.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>{% block title %}Public Webcam Directory{% endblock %}</title>
+  <title>{% block title %}Womzo{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='login1') }}">
   {% block head %}{% endblock %}
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='womzo-icon.svg') }}">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="{{ url_for('index') }}">◉ <span>SJB's World Webcams</span></a>
+    <a class="brand" href="{{ url_for('index') }}">
+    <img class="brand-icon" src="{{ url_for('static', filename='womzo-icon.svg') }}" alt="" width="28" height="28">
+    <span>Womzo</span>
+  </a>
     <nav>
       <a href="{{ url_for('index') }}">View cameras</a>
       <a href="{{ url_for('admin') }}">Manage</a>
