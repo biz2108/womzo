@@ -13,10 +13,14 @@ See LICENSE for the full licence terms.
   <title>{% block title %}Womzo{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='login1') }}">
   {% block head %}{% endblock %}
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='womzo-icon.svg') }}">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="{{ url_for('index') }}">◉ <span>Womzo</span></a>
+    <a class="brand" href="{{ url_for('index') }}">
+    <img class="brand-icon" src="{{ url_for('static', filename='womzo-icon.svg') }}" alt="" width="28" height="28">
+    <span>Womzo</span>
+  </a>
     <nav>
       <a href="{{ url_for('index') }}">View cameras</a>
       <a href="{{ url_for('admin') }}">Manage</a>
