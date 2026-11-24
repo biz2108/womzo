@@ -21,6 +21,22 @@ through the built-in administration interface.
 Once configured, visitors can browse locations, search for
 cameras and watch their favourites without needing an account.
 
+## Screenshots
+
+### Desktop viewer
+
+![Womzo desktop viewer with Big Buck Bunny demo video](docs/images/desktop-viewer.png)
+
+### Manage webcams
+
+![Womzo administration interface with example camera](docs/images/admin-manage.png)
+
+### Mobile viewer
+
+![Womzo mobile viewer at 390 px](docs/images/mobile-viewer.png)
+
+*Screenshots show a user-configured demonstration; Womzo does not include preinstalled streams. The prerecorded Big Buck Bunny example is © 2008 Blender Foundation and licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).*
+
 ## Features
 
 - Free and open-source software
@@ -96,8 +112,8 @@ Container Registry is the recommended method.
 
 Create a dedicated installation directory:
 
-    mkdir worldcams
-    cd worldcams
+    mkdir womzo
+    cd womzo
 
 Download these two files into that directory:
 

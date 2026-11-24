@@ -19,11 +19,11 @@ See LICENSE for the full licence terms.
     <form class="stack" action="{{ url_for('add_camera') }}" method="post">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <label for="title">Camera title</label>
-      <input type="text" name="title" id="title" maxlength="100" placeholder="Plymouth Hoe" required>
+      <input type="text" name="title" id="title" maxlength="100" placeholder="e.g. Harbour webcam" required>
       <label for="location">Location or category</label>
-      <input type="text" name="location" id="location" maxlength="80" placeholder="Plymouth, England" required>
+      <input type="text" name="location" id="location" maxlength="80" placeholder="e.g. Coastal views" required>
       <label for="url">Camera URL</label>
-      <input type="url" name="url" id="url" maxlength="2048" placeholder="https://www.youtube.com/live/…" required>
+      <input type="url" name="url" id="url" maxlength="2048" placeholder="Paste a webcam or stream URL" required>
       <p class="helper">YouTube live, IPCamLive and MyEarthCam embed-player URLs can be embedded here. HLS (.m3u8) works when the provider permits browser access. Ordinary webcam pages open at their original site.</p>
       <button class="primary" type="submit">Add camera</button>
     </form>
