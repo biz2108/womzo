@@ -7,6 +7,7 @@ will be documented in this file.
 
 ### Added
 
+- Distinctive Womzo SVG logo and browser favicon.
 - GNU Affero General Public License v3.0 (AGPL-3.0-only).
 - Third-party licensing and copyright documentation.
 - Branding and contributor guidelines.
@@ -25,6 +26,8 @@ will be documented in this file.
 
 ### Changed
 
+- Rebranded SJB's World Webcams as Womzo, an SJB Projects application.
+- Renamed the GitHub repository and Docker image references to Womzo.
 - Clarified that users create their own webcam collections.
 - Recommended installation from ready-built Docker images.
 - Restricted the Docker build context to required application files.
