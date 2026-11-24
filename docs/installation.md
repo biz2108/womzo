@@ -26,14 +26,18 @@ Typical supported results are x86_64 and aarch64.
 
 ## Create an installation directory
 
-    mkdir worldcams
-    cd worldcams
+    mkdir womzo
+    cd womzo
 
-Download compose.yaml and .env.example from the deploy
-directory of the corresponding GitHub release.
+Download the two installation files for version 0.1.1:
 
-Save both files in your installation directory using
-their original filenames.
+    curl -fL -o compose.yaml https://raw.githubusercontent.com/biz2108/womzo/v0.1.1/deploy/compose.yaml
+    curl -fL -o .env.example https://raw.githubusercontent.com/biz2108/womzo/v0.1.1/deploy/.env.example
+
+These version-specific URLs become available when
+version 0.1.1 is released publicly.
+
+Keep both downloaded files in your installation directory.
 
 ## Prepare the configuration
 
