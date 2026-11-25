@@ -3,7 +3,7 @@
 All notable changes to Womzo
 will be documented in this file.
 
-## [0.1.1] - Unreleased
+## [0.1.1] - 2026-11-25
 
 ### Added
 
