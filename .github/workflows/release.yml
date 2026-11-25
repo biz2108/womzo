@@ -1,0 +1,241 @@
+name: Publish Versioned Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: womzo-versioned-release
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate release and test source
+    if: github.repository == 'biz2108/womzo'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate tag and version
+        id: version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid release tag"
+            exit 1
+          fi
+
+          VERSION="${RELEASE_TAG#v}"
+
+          if [[ "$(cat VERSION)" != "$VERSION" ]]; then
+            echo "Tag does not match VERSION file"
+            exit 1
+          fi
+
+          if [[ "$(git rev-parse HEAD)" != "$(git rev-parse refs/remotes/origin/main)" ]]; then
+            echo "Release tag must point to current main"
+            exit 1
+          fi
+
+          if grep -Fq "## [$VERSION] - Unreleased" CHANGELOG.md; then
+            echo "Update changelog release date first"
+            exit 1
+          fi
+
+          if ! grep -Fq "## [$VERSION] - " CHANGELOG.md; then
+            echo "Release version missing from changelog"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Run automated tests
+        run: bash tests/run_tests.sh
+
+  publish:
+    name: Build AMD64 and ARM64 release candidate
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+
+    env:
+      IMAGE: ghcr.io/biz2108/womzo
+      VERSION: ${{ needs.validate.outputs.version }}
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a # v4.3.0
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Build and publish release candidate
+        id: build
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --label "org.opencontainers.image.version=$VERSION" \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            --tag "$IMAGE:candidate-${GITHUB_SHA}" \
+            --metadata-file "$RUNNER_TEMP/womzo-release.json" \
+            --push .
+
+          DIGEST="$(python3 -c \
+            'import json,sys; print(json.load(open(sys.argv[1]))["containerimage.digest"])' \
+            "$RUNNER_TEMP/womzo-release.json")"
+
+          if [[ ! "$DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]; then
+            echo "Invalid published image digest"
+            exit 1
+          fi
+
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          docker buildx imagetools inspect "$IMAGE@$DIGEST"
+
+      - name: Log out of registry
+        if: always()
+        run: docker logout ghcr.io
+
+  test:
+    name: Verify published image on ${{ matrix.arch }}
+    needs: publish
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+      packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+
+    env:
+      IMAGE_DIGEST: ${{ needs.publish.outputs.digest }}
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Download and verify image
+        run: |
+          IMAGE="ghcr.io/biz2108/womzo@$IMAGE_DIGEST"
+          docker pull "$IMAGE"
+
+          ARCH="$(docker image inspect "$IMAGE" --format '{{.Architecture}}')"
+          echo "Published image architecture: $ARCH"
+          test "$ARCH" = "${{ matrix.arch }}"
+
+          echo "WORLDCAMS_TEST_IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Run published image tests
+        run: bash tests/run_tests.sh
+
+      - name: Log out of registry
+        if: always()
+        run: docker logout ghcr.io
+
+  finalize:
+    name: Promote tested image to official release
+    needs: [validate, publish, test]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      IMAGE: ghcr.io/biz2108/womzo
+      VERSION: ${{ needs.validate.outputs.version }}
+      IMAGE_DIGEST: ${{ needs.publish.outputs.digest }}
+
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
+
+      - name: Log in to GitHub Container Registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Check version tag is unused
+        run: |
+          if docker buildx imagetools inspect "$IMAGE:$VERSION" > /tmp/womzo-image-check.log 2>&1; then
+            echo "Docker image tag already exists. Refusing to overwrite."
+            exit 1
+          fi
+
+          if ! grep -Eqi 'not found|manifest unknown|name unknown|404' /tmp/womzo-image-check.log; then
+            echo "Could not confirm that the image tag is unused."
+            cat /tmp/womzo-image-check.log
+            exit 1
+          fi
+
+      - name: Promote verified image
+        run: |
+          if [[ ! "$IMAGE_DIGEST" =~ ^sha256:[a-f0-9]{64}$ ]]; then
+            echo "Invalid release candidate digest"
+            exit 1
+          fi
+
+          docker buildx imagetools create \
+            --tag "$IMAGE:$VERSION" \
+            "$IMAGE@$IMAGE_DIGEST"
+
+          docker buildx imagetools inspect "$IMAGE:$VERSION"
+
+      - name: Log out of registry
+        if: always()
+        run: docker logout ghcr.io
