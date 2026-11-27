@@ -13,6 +13,8 @@ having to visit numerous different websites.
 
 **Your collection, your choice.**
 
+**Official website:** [womzo.org](https://womzo.org)
+
 The application starts with an empty webcam collection.
 No webcam links are preinstalled, allowing you to choose
 which cameras and supported video sources you wish to add
@@ -85,6 +87,9 @@ Original source link.
 | [Configuration](docs/configuration.md) | Application settings, networking and security |
 | [Maintenance](docs/maintenance.md) | Backups, restoration and upgrades |
 | [Troubleshooting](docs/troubleshooting.md) | Common problems and solutions |
+
+For a practical introduction and step-by-step Docker installation
+guide, see [Womzo on The Homelab Site](https://thehomelabsite.com/guides/womzo/).
 
 ## Installation
 
